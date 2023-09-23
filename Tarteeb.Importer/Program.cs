@@ -1,35 +1,36 @@
-﻿using System;
-using System.Linq;
+﻿//=================================
+// Copyright (c) Tarteeb LLC
+// Powering True Leadership
+//===============================
+
+using System;
 using System.Threading.Tasks;
-using Tarteeb.Importer.Brokers.Storages;
+using Tarteeb.importer.Brockers.Storages;
+using Tarteeb.importer.Models.Exceptions;
+using Tarteeb.importer.Services.Clients;
 using Tarteeb.Importer.Models.Clients;
 
-namespace Tarteeb.Importer;
+namespace Tarteeb.importer;
 
 public class Program
 {
     static async Task Main(string[] args)
     {
-        var client = new Models.Clients.Client
+        try
         {
-            Id = Guid.NewGuid(),
-            FirstName = "Jonhatan",
-            LastName = "Stricer",
-            PhoneNumber = "1234567890",
-            Email = "azizbek@gmail.com",
-            BrithDate = DateTimeOffset.Now,
-            GroupId = Guid.NewGuid(),
-        };
-
-        using (var storageBroker = new StorageBroker())
-        {
-            Client persistedClient = await storageBroker.InsertClientAsync(client);
-            IQueryable<Client> dbClients = storageBroker.SelectAllClients();
-
-            foreach (var dbClient in dbClients)
+            using (var storageBroker = new StorageBroker())
             {
-                Console.WriteLine(dbClient.FirstName + " " + dbClient.LastName);
+                Client client = null;
+
+                var clientServices = new ClientServices(storageBroker);
+                Client persistedClient = await clientServices.AddClientAsync(client);
+                Console.WriteLine(persistedClient.Id);
+
             }
+        }
+        catch (NullClientException exception)
+        {
+            Console.WriteLine(exception.Message);
         }
     }
 }
