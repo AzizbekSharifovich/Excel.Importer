@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tarteeb.Importer.Models.Client;
+namespace Tarteeb.Importer.Models.Clients;
 public class Client
 {
     public Guid Id { get; set; }
