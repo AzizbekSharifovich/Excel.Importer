@@ -12,7 +12,7 @@ namespace Tarteeb.importer.Services.Clients;
 
 public class ClientServices
 {
-    public readonly StorageBroker storageBroker;
+    private readonly StorageBroker storageBroker;
 
     public ClientServices(StorageBroker storageBroker)
     {
