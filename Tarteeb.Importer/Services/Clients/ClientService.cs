@@ -26,13 +26,10 @@ public class ClientServices
     /// <exception cref="InvalidClientException"></exception>
     public async Task<Client> AddClientAsync(Client client)
     {
-        if (client is null)
-        {
-            throw new NullClientException();
-        }
+        ValidateClientNotNull(client);
 
         Validate(
-            (Rule: IsInvalid(client.Id),Parameter: nameof(Client.Id)),
+            (Rule: IsInvalid(client.Id), Parameter: nameof(Client.Id)),
             (Rule: IsInvalid(client.FirstName), Parameter: nameof(Client.FirstName)),
             (Rule: IsInvalid(client.Email), Parameter: nameof(Client.Email)),
             (Rule: IsInvalid(client.GroupId), Parameter: nameof(Client.GroupId)));
@@ -41,6 +38,14 @@ public class ClientServices
             (Rule: IsInvalidEmail(client.Email), Parameter: nameof(Client.Email)));
 
         return await storageBroker.InsertClientAsync(client);
+    }
+
+    private static void ValidateClientNotNull(Client client)
+    {
+        if (client is null)
+        {
+            throw new NullClientException();
+        }
     }
 
     private dynamic IsInvalid(Guid id) => new
