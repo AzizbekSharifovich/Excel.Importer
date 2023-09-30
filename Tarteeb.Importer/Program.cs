@@ -11,6 +11,9 @@ using Tarteeb.importer.Services.Clients;
 using Tarteeb.Importer.Models.Clients;
 using Tarteeb.Importer.Models.Exceptions;
 using System.Linq;
+using Tarteeb.Importer.Brokers.Logging;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Tarteeb.importer;
 
