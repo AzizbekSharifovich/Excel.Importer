@@ -13,6 +13,7 @@ using Tarteeb.importer.Services.Clients;
 using Tarteeb.Importer.Brokers.Logging;
 using Tarteeb.Importer.Models.Clients;
 using Tarteeb.Importer.Models.Exceptions;
+using System.Linq;
 
 namespace Tarteeb.importer;
 
