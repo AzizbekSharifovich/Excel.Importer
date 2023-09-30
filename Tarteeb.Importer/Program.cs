@@ -20,6 +20,8 @@ public class Program
 {
     static async Task Main(string[] args)
     {
+        var loggingBroker = new LoggingBroker();
+
         try
         {
             using (var storageBroker = new StorageBroker())
@@ -40,7 +42,7 @@ public class Program
         }
         catch (NullClientException exception)
         {
-            Console.WriteLine(exception.Message);
+            loggingBroker.LoggingError(exception);
         }
         catch(InvalidClientException invalidClientException)
         {
