@@ -4,16 +4,15 @@
 //===============================
 
 using System;
+using System.Collections.Generic;
+using System.Collections;
 using System.Threading.Tasks;
 using Tarteeb.importer.Brockers.Storages;
 using Tarteeb.importer.Models.Exceptions;
 using Tarteeb.importer.Services.Clients;
+using Tarteeb.Importer.Brokers.Logging;
 using Tarteeb.Importer.Models.Clients;
 using Tarteeb.Importer.Models.Exceptions;
-using System.Linq;
-using Tarteeb.Importer.Brokers.Logging;
-using System.Collections;
-using System.Collections.Generic;
 
 namespace Tarteeb.importer;
 
@@ -47,7 +46,7 @@ public class Program
         }
         catch(InvalidClientException invalidClientException)
         {
-            Console.WriteLine(invalidClientException.Message);
+            loggingBroker.LoggingError(invalidClientException);
 
             foreach (DictionaryEntry entry in invalidClientException.Data)
             {
