@@ -10,6 +10,7 @@ using Tarteeb.importer.Models.Exceptions;
 using Tarteeb.importer.Services.Clients;
 using Tarteeb.Importer.Models.Clients;
 using Tarteeb.Importer.Models.Exceptions;
+using System.Linq;
 
 namespace Tarteeb.importer;
 
@@ -17,6 +18,8 @@ public class Program
 {
     static async Task Main(string[] args)
     {
+        var loggingBroker = new LoggingBroker();
+
         try
         {
             using (var storageBroker = new StorageBroker())
@@ -37,11 +40,20 @@ public class Program
         }
         catch (NullClientException exception)
         {
-            Console.WriteLine(exception.Message);
+            loggingBroker.LoggingError(exception);
         }
         catch(InvalidClientException invalidClientException)
         {
             Console.WriteLine(invalidClientException.Message);
+
+            foreach (DictionaryEntry entry in invalidClientException.Data)
+            {
+                string errorSummery = ((List<string>)entry.Value)
+                    .Select((string value) => value)
+                    .Aggregate((string current, string next) => current + "," + next);
+
+                Console.WriteLine(entry.Key + "-" + errorSummery);
+            }
         }
     }
 }
