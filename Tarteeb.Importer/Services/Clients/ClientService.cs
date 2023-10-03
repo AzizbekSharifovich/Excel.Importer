@@ -1,30 +1,39 @@
 ﻿//=================================
 // Copyright (c) Tarteeb LLC
 // Powering True Leadership
-//===============================
-
+//=================================
 using System.Threading.Tasks;
 using Tarteeb.importer.Brockers.Storages;
-using Tarteeb.importer.Models.Exceptions;
+using Tarteeb.Importer.Brokers.DataTimeBroker;
+using Tarteeb.Importer.Brokers.Logging;
 using Tarteeb.Importer.Models.Clients;
+using Tarteeb.Importer.Models.Exceptions;
 
-namespace Tarteeb.importer.Services.Clients;
+namespace Tarteeb.Importer.Services.Clients;
 
-public class ClientServices
+public partial class ClientService
 {
     private readonly StorageBroker storageBroker;
+    private readonly DataTimeBroker dataTimeBroker;
+    private readonly LoggingBroker loggingBroker;
 
-    public ClientServices(StorageBroker storageBroker)
+    public ClientService(
+        StorageBroker storageBroker,
+        DataTimeBroker dataTimeBroker,
+        LoggingBroker loggingBroker)
     {
         this.storageBroker = storageBroker;
+        this.dataTimeBroker = dataTimeBroker;
+        this.loggingBroker = loggingBroker;
     }
 
-    public async Task<Client> AddClientAsync(Client client)
+    /// <exception cref="ClientValidationException"></exception>
+    public Task<Client> AddClientAsync(Client client) =>
+    TryCatch(() =>
     {
-        if (client is null)
-        {
-            throw new NullClientException();
-        }
-        return await storageBroker.InsertClientAsync(client);
-    }
+        ValidateClientOnAdd(client);
+
+        return  this.storageBroker.InsertClientAsync(client);
+    });
 }
+
