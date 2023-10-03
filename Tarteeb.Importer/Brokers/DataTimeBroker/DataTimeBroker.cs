@@ -9,7 +9,7 @@ namespace Tarteeb.Importer.Brokers.DataTimeBroker;
 
 public class DataTimeBroker
 {
-    DateTimeOffset GetCurrentDateTimeOffset() =>
+    public DateTimeOffset GetCurrentDateTimeOffset() =>
         DateTimeOffset.UtcNow;
 }
 
