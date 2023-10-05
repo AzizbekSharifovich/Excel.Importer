@@ -21,44 +21,33 @@ public class Program
 {
     static async Task Main(string[] args)
     {
-        var storageBroker = new StorageBroker();
-        var loggingBroker = new LoggingBroker();
-        var dataTimeBroker = new DataTimeBroker();
-
-        try
+        try 
         {
-            var clientServices = new ClientService(
-                new StorageBroker(),
-                new DataTimeBroker(),
-                new LoggingBroker());
-            
-            var client = new Client()
-            {   
+            StorageBroker storageBroker = new StorageBroker();
+            LoggingBroker loggingBroker = new LoggingBroker();
+            DataTimeBroker dataTimeBroker = new DataTimeBroker();
+
+            ClientService clientService = new ClientService(
+                storageBroker: new StorageBroker(),
+                dataTimeBroker: new DataTimeBroker(),
+                loggingBroker: new LoggingBroker());
+
+            var client = new Client
+            {
                 Id = Guid.NewGuid(),
-                FirstName = "John",
-                LastName = "Doe",
-                Email = "test@gmail.com",
-                BrithDate = DateTimeOffset.UtcNow,
-                GroupId = Guid.NewGuid(),
+                FirstName = "Test",
+                LastName = "Test",
+                BrithDate = DateTimeOffset.Parse("1/1.2000"),
+                Email = "Test@gmail.com",
+                GroupId = Guid.NewGuid()
             };
 
-            var persistedClient = await clientServices.AddClientAsync(client);
-
-            Console.WriteLine(persistedClient);
+            var persistedClient = await clientService.AddClientAsync(client);
+            Console.WriteLine(persistedClient.Id);
         }
-        catch(ClientValidationException clientValidationException)
+        catch (Exception ex) 
         {
-            var innerException = (Xeption)clientValidationException.InnerException;
-            Console.WriteLine(innerException.Message);
-
-            foreach (DictionaryEntry entry in innerException.Data)
-            {
-                string errorSummery = ((List<string>)entry.Value)
-                    .Select((string value) => value)
-                    .Aggregate((string current, string next) => current + "," + next);
-
-                Console.WriteLine(entry.Key + "-" + errorSummery);
-            }
+            
         }
     }
 }
