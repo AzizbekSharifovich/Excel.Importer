@@ -60,7 +60,6 @@ public class Program
         {
             Console.WriteLine(clientValidationException.Message);
         }
-
         catch (ClientDependecyValidationException clientDependecyValidationException)
         {
             Console.WriteLine(clientDependecyValidationException.Message);
