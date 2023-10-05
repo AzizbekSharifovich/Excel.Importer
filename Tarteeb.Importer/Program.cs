@@ -68,7 +68,6 @@ public class Program
         {
             Console.WriteLine(clientDependencyException.Message);
         }
-
         catch (ClientServiceException clientServiceException)
         {
             Console.WriteLine(clientServiceException.Message);
