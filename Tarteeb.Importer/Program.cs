@@ -11,7 +11,7 @@ using Tarteeb.importer.Brockers.Storages;
 using Tarteeb.Importer.Brokers.DataTimeBroker;
 using Tarteeb.Importer.Brokers.Logging;
 using Tarteeb.Importer.Models.Clients;
-using Tarteeb.Importer.Models.Exceptions;
+using Tarteeb.Importer.Models.Exceptions.Categories;
 using Tarteeb.Importer.Services.Clients;
 using Xeptions;
 

@@ -7,7 +7,6 @@ using Tarteeb.importer.Brockers.Storages;
 using Tarteeb.Importer.Brokers.DataTimeBroker;
 using Tarteeb.Importer.Brokers.Logging;
 using Tarteeb.Importer.Models.Clients;
-using Tarteeb.Importer.Models.Exceptions;
 
 namespace Tarteeb.Importer.Services.Clients;
 
@@ -27,7 +26,6 @@ public partial class ClientService
         this.loggingBroker = loggingBroker;
     }
 
-    /// <exception cref="ClientValidationException"></exception>
     public Task<Client> AddClientAsync(Client client) =>
     TryCatch(() =>
     {
