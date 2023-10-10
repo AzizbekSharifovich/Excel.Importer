@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Bogus;
 using Tarteeb.importer.Brockers.Storages;
 using Tarteeb.Importer.Brokers.DataTimeBroker;
 using Tarteeb.Importer.Brokers.Logging;
@@ -30,19 +31,26 @@ public class Program
                 storageBroker: new StorageBroker(),
                 dataTimeBroker: new DataTimeBroker(),
                 loggingBroker: new LoggingBroker());
+            
+            Faker faker = new Faker();
 
-            var client = new Client
+            for(int index = 0; index < 2000; index++)
             {
-                Id = Guid.NewGuid(),
-                FirstName = "Test",
-                LastName = "Test",
-                BrithDate = DateTimeOffset.Parse("1/1.2000"),
-                Email = "Test@gmail.com",
-                GroupId = Guid.NewGuid()
-            };
+                var client = new Client
+                {
+                    Id = faker.Random.Guid(),
+                    FirstName = faker.Name.FindName(),
+                    LastName = faker.Name.LastName(),
+                    BrithDate = faker.Date.PastOffset(20, DateTime.Now.AddYears(-18)),
+                    Email = faker.Internet.Email(),
+                    PhoneNumber = "+" + faker.Phone.PhoneNumber(),
+                    GroupId = faker.Random.Guid()
+                };
 
-            var persistedClient = await clientService.AddClientAsync(client);
-            Console.WriteLine(persistedClient.Id);
+                var persistedClient = await clientService.AddClientAsync(client);
+                Console.WriteLine($"Added user: {persistedClient}");
+            }
+            
         }
         catch(ClientValidationException clientValidationException)
             when (clientValidationException.InnerException is InvalidClientException)
