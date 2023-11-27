@@ -68,7 +68,6 @@ public class Program
         {
             Console.WriteLine(clientValidationException.Message);
         }
-
         catch (ClientDependecyValidationException clientDependecyValidationException)
         {
             Console.WriteLine(clientDependecyValidationException.Message);
@@ -77,7 +76,6 @@ public class Program
         {
             Console.WriteLine(clientDependencyException.Message);
         }
-
         catch (ClientServiceException clientServiceException)
         {
             Console.WriteLine(clientServiceException.Message);
